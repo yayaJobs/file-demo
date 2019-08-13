@@ -10,25 +10,39 @@
         <module>file-core</module>
         <module>file-freeMarker</module>
         <module>file-thymeleaf</module>
+        <module>file-iText</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <com.itext.version>5.5.13</com.itext.version>
+        <org.freemarker.version>2.3.28</org.freemarker.version>
+        <org.lombok.version>1.18.8</org.lombok.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>${com.itext.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.itextpdf.tool</groupId>
+                <artifactId>xmlworker</artifactId>
+                <version>${com.itext.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
-                <version>2.3.28</version>
+                <version>${org.freemarker.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.8</version>
+                <version>${org.lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
         </dependencies>
