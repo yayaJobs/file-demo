@@ -11,6 +11,7 @@
         <module>file-freeMarker</module>
         <module>file-thymeleaf</module>
         <module>file-iText</module>
+        <module>file-jfreechart</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -19,6 +20,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <com.itext.version>5.5.13</com.itext.version>
         <org.freemarker.version>2.3.28</org.freemarker.version>
+        <org.jfreechart.version>1.5.0</org.jfreechart.version>
         <org.lombok.version>1.18.8</org.lombok.version>
     </properties>
 
@@ -38,6 +40,11 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${org.freemarker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jfree</groupId>
+                <artifactId>jfreechart</artifactId>
+                <version>${org.jfreechart.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

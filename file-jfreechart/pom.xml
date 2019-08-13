@@ -9,22 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>file-core</artifactId>
-
+    <artifactId>file-jfreechart</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.evi.yaya</groupId>
-            <artifactId>file-freeMarker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.evi.yaya</groupId>
-            <artifactId>file-jfreechart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.evi.yaya</groupId>
-            <artifactId>file-iText</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.0</version>
         </dependency>
     </dependencies>
-
 
 </project>

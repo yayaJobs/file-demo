@@ -35,6 +35,7 @@ public class PDFUtil {
         document.open();
         // step 4
         // todo 页面html标签需指定中文字体，否则中文显示异常
+        // todo html文件中需设定纸张大小，如A4纸张，否则显示异常
         XMLWorkerHelper.getInstance().parseXHtml(writer, document,
                 new FileInputStream("E:\\data\\pdf\\html\\freeMarker01.html"), Charset.forName("UTF-8"));
         // step 5
