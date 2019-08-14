@@ -1,5 +1,7 @@
 package com.evi.yaya.file.jfreechart;
 
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
@@ -41,5 +43,20 @@ public class PieDatasetUtil {
             dataSet.setValue(names[i], values[i]);
         }
         return dataSet;
+    }
+
+    //String rowKeys[] = { "社科类", "文学类", "体育类", "少儿类" }
+    //String columnKeys[] = { "第1周", "第2周", "第3周", "第4周" };
+    public static CategoryDataset createCategoryDataset(String[] rowKeys, String[] columnKeys, int[][] values) {
+        if (null == values || null == rowKeys || null == columnKeys || values.length != rowKeys.length || columnKeys.length != values[0].length) {
+            return null;
+        }
+        DefaultCategoryDataset categoryDataset = new DefaultCategoryDataset();
+        for (int i = 0; i < rowKeys.length; i++) {
+            for (int j = 0; j < columnKeys.length; j++) {
+                categoryDataset.addValue(values[i][j], rowKeys[i], columnKeys[j]);
+            }
+        }
+        return categoryDataset;
     }
 }

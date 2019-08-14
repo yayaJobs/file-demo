@@ -39,7 +39,16 @@ public class HtmlToPdf {
         String ringChartImageTempPath = "E:\\data\\pdf\\images\\ringChartImageTemp.jpg";
         String[] names = {"私募股权", "房地产", "基金", "现金宝宝", "股票"};
         int[] values = {20, 20, 20, 30, 10};
-        JFreeChartUtil.createRingChartAsPNG("投资种类占比", names, values, font, 600, 300, ringChartImageTempPath, ringChartImagePath);
+        JFreeChartUtil.createRingChartAsPNG("投资种类占比", names, values, font, font, 600, 300, ringChartImageTempPath, ringChartImagePath);
+        String multiplePieChartImagePath = "E:\\data\\pdf\\images\\multiplePieChartImage.jpg";
+        String rowKeys[] = {"社科类", "文学类", "体育类", "少儿类"};
+        String columnKeys[] = {"第1周", "第2周", "第3周", "第4周"};
+        int[][] multipleValues = {{1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16}};
+        JFreeChartUtil.createMultiplePieChartAsPNG("各州图书销量", rowKeys, columnKeys, multipleValues, font, font, 800, 600, multiplePieChartImagePath);
+
         //freeMarker转化模板to html
         Map<String, Object> parmas = new HashMap<>();
         Customer customer = new Customer();
@@ -51,6 +60,7 @@ public class HtmlToPdf {
         parmas.put("machine", machine);
         parmas.put("pieChartImagePath", pieChartImagePath);
         parmas.put("ringChartImagePath", ringChartImagePath);
+        parmas.put("multiplePieChartImagePath", multiplePieChartImagePath);
         FreeMarkerUtil.processTemplate(parmas, "freeMarker01.html", "E:\\data\\pdf\\html\\freeMarker01.html");
         //itext html to pdf
         ITextUtil.parseXHtml("E:\\data\\pdf\\html\\freeMarker01.html", "E:\\data\\pdf\\result\\freeMarker01.pdf");

@@ -2,12 +2,17 @@ package com.evi.yaya.file.jfreechart;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.DefaultDrawingSupplier;
+import org.jfree.chart.plot.MultiplePiePlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.RingPlot;
+import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.chart.util.TableOrder;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
@@ -15,8 +20,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.awt.SystemColor.info;
 
 /**
  * 说明：TODO
@@ -32,6 +41,7 @@ import java.util.Map;
  */
 @Slf4j
 public class JFreeChartUtil {
+
     public static void main(String[] args) {
         Map<String, Object> params = new HashMap<>();
         params.put("00点-04点", 100);
@@ -53,6 +63,7 @@ public class JFreeChartUtil {
         PieDataset pds = PieDatasetUtil.createPieDataset(params);
         // 分别是:显示图表的标题、需要提供对应图表的DateSet对象、是否显示图例、是否生成贴士以及是否生成URL链接
         JFreeChart chart = ChartFactory.createPieChart(title, pds, true, false, false);
+        chart.getLegend().setItemFont(labelFont);
         // 设置图片标题的字体
         chart.getTitle().setFont(titleFont);
         // 得到图块,准备设置标签的字体
@@ -77,14 +88,15 @@ public class JFreeChartUtil {
         return Boolean.TRUE;
     }
 
-    public static Boolean createRingChartAsPNG(String title, String[] names, int[] values, Font labelFont, int width, int height, String tempPath, String filePath) {
+    public static Boolean createRingChartAsPNG(String title, String[] names, int[] values, Font titleFont, Font labelFont, int width, int height, String tempPath, String filePath) {
         JFreeChart chart = ChartFactory.createRingChart(title, PieDatasetUtil.createPieDataset(names, values), true, false, false);
+        chart.getTitle().setFont(titleFont);
         chart.getLegend().setVisible(false);
         // 环形图
         RingPlot ringplot = (RingPlot) chart.getPlot();
         ringplot.setOutlineVisible(false);
         //{2}表示显示百分比
-        ringplot.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}"));
+        ringplot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} {2}"));
         ringplot.setBackgroundPaint(new Color(253, 253, 253));
         ringplot.setOutlineVisible(false);
         //设置标签样式
@@ -130,6 +142,26 @@ public class JFreeChartUtil {
             e.printStackTrace();
         } finally {
 
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createMultiplePieChartAsPNG(String title, String[] rowKeys, String[] columnKeys, int[][] values, Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createMultiplePieChart(title, PieDatasetUtil.createCategoryDataset(rowKeys, columnKeys, values), TableOrder.BY_COLUMN, true, false, false);
+        chart.getLegend().setItemFont(labelFont);
+        chart.getTitle().setFont(titleFont);
+        MultiplePiePlot multiplePiePlot = (MultiplePiePlot) chart.getPlot();
+        PiePlot piePlot = (PiePlot) multiplePiePlot.getPieChart().getPlot();
+        multiplePiePlot.getPieChart().getTitle().setFont(titleFont);
+        piePlot.setLabelFont(labelFont);
+        piePlot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} = {1} ({2})", NumberFormat.getNumberInstance(), new DecimalFormat("0.00%")));
+        for (int i = 0; i < rowKeys.length; i++) {
+            piePlot.setExplodePercent(rowKeys[i], 0.05);
+        }
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return Boolean.TRUE;
     }
