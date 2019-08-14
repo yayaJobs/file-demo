@@ -33,8 +33,13 @@ public class HtmlToPdf {
         params.put("16点-20点", 500);
         params.put("20点-24点", 600);
         Font font = new Font("宋体", Font.BOLD, 12);
-        String imagePath = "E:\\data\\pdf\\images\\pie.jpg";
-        JFreeChartUtil.createPieChartAsJPEG("今日放屁次数:时间段分布图", params, font, font, 600, 300, imagePath);
+        String pieChartImagePath = "E:\\data\\pdf\\images\\pieChartImage.jpg";
+        JFreeChartUtil.createPieChartAsJPEG("今日放屁次数:时间段分布图", params, font, font, 600, 300, pieChartImagePath);
+        String ringChartImagePath = "E:\\data\\pdf\\images\\ringChartImage.jpg";
+        String ringChartImageTempPath = "E:\\data\\pdf\\images\\ringChartImageTemp.jpg";
+        String[] names = {"私募股权", "房地产", "基金", "现金宝宝", "股票"};
+        int[] values = {20, 20, 20, 30, 10};
+        JFreeChartUtil.createRingChartAsPNG(names, values, font, 600, 300, ringChartImageTempPath, ringChartImagePath);
         //freeMarker转化模板to html
         Map<String, Object> parmas = new HashMap<>();
         Customer customer = new Customer();
@@ -44,7 +49,8 @@ public class HtmlToPdf {
         machine.setTypeName("第五型号");
         parmas.put("customer", customer);
         parmas.put("machine", machine);
-        parmas.put("imagePath", imagePath);
+        parmas.put("pieChartImagePath", pieChartImagePath);
+        parmas.put("ringChartImagePath", ringChartImagePath);
         FreeMarkerUtil.processTemplate(parmas, "freeMarker01.html", "E:\\data\\pdf\\html\\freeMarker01.html");
         //itext html to pdf
         ITextUtil.parseXHtml("E:\\data\\pdf\\html\\freeMarker01.html", "E:\\data\\pdf\\result\\freeMarker01.pdf");

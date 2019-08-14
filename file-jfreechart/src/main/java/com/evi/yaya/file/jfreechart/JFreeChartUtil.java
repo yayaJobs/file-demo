@@ -5,12 +5,16 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.RingPlot;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +50,7 @@ public class JFreeChartUtil {
         if (null == params) {
             return Boolean.FALSE;
         }
-        DefaultPieDataset pds = new DefaultPieDataset();
-        for (String key : params.keySet()) {
-            pds.setValue(key, (Number) params.get(key));
-        }
+        PieDataset pds = PieDatasetUtil.createPieDataset(params);
         // 分别是:显示图表的标题、需要提供对应图表的DateSet对象、是否显示图例、是否生成贴士以及是否生成URL链接
         JFreeChart chart = ChartFactory.createPieChart(title, pds, false, false, true);
         // 设置图片标题的字体
@@ -72,6 +73,63 @@ public class JFreeChartUtil {
         } catch (IOException e) {
             log.error("createPieChartAsJPEG IOException e={}", e.getMessage());
             return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createRingChartAsPNG(String[] names, int[] values, Font labelFont, int width, int height, String tempPath, String filePath) {
+        JFreeChart chart = ChartFactory.createRingChart(null, PieDatasetUtil.createPieDataset(names, values), true, false, false);
+        chart.getLegend().setVisible(false);
+        // 环形图
+        RingPlot ringplot = (RingPlot) chart.getPlot();
+        ringplot.setOutlineVisible(false);
+        //{2}表示显示百分比
+        ringplot.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}"));
+        ringplot.setBackgroundPaint(new Color(253, 253, 253));
+        ringplot.setOutlineVisible(false);
+        //设置标签样式
+        ringplot.setLabelFont(labelFont);
+        ringplot.setSimpleLabels(true);
+        ringplot.setLabelLinkPaint(Color.WHITE);
+        ringplot.setLabelOutlinePaint(Color.WHITE);
+        ringplot.setLabelLinksVisible(false);
+        ringplot.setLabelShadowPaint(null);
+        ringplot.setLabelOutlinePaint(new Color(0, true));
+        ringplot.setLabelBackgroundPaint(new Color(0, true));
+        ringplot.setLabelPaint(Color.WHITE);
+        ringplot.setSectionOutlinePaint(0, Color.WHITE);
+        ringplot.setSeparatorsVisible(true);
+        ringplot.setSeparatorPaint(Color.WHITE);
+        ringplot.setShadowPaint(new Color(253, 253, 253));
+        ringplot.setSectionDepth(0.58);
+        ringplot.setStartAngle(90);
+        ringplot.setDrawingSupplier(new DefaultDrawingSupplier(
+                new Paint[]{
+                        new Color(134, 212, 222),
+                        new Color(174, 145, 195),
+                        new Color(255, 162, 195),
+                        new Color(249, 163, 86),
+                        new Color(119, 173, 195)
+                },
+                DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE));
+        try {
+            FileOutputStream fos_jpg = new FileOutputStream(tempPath);
+            ChartUtils.writeChartAsPNG(fos_jpg, chart, width - 5, height);
+            //以下由于jfreechart设置背景色后，背景会有留白，直接将目标图片截取
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ChartUtils.writeChartAsPNG(baos, chart, width, height, null);
+            BufferedImage bi = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
+            BufferedImage sub = bi.getSubimage(5, 0, width - 10, height - 5);
+            ImageIO.write(sub, "png", new File(filePath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
         }
         return Boolean.TRUE;
     }
