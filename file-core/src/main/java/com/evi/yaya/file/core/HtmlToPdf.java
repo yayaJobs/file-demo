@@ -1,8 +1,8 @@
 package com.evi.yaya.file.core;
 
-import com.evi.yaya.file.freeMarker.FreeMarkerUtil;
 import com.evi.yaya.file.core.bean.Customer;
 import com.evi.yaya.file.core.bean.Machine;
+import com.evi.yaya.file.freeMarker.FreeMarkerUtil;
 import com.evi.yaya.file.iText.ITextUtil;
 import com.evi.yaya.file.jfreechart.JFreeChartUtil;
 

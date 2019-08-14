@@ -2,15 +2,11 @@ package com.evi.yaya.file.jfreechart;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.*;
-import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.chart.util.TableOrder;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 import javax.imageio.ImageIO;
@@ -21,8 +17,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.awt.SystemColor.info;
 
 /**
  * 说明：TODO
