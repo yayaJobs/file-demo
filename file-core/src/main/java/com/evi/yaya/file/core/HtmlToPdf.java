@@ -39,7 +39,7 @@ public class HtmlToPdf {
         String ringChartImageTempPath = "E:\\data\\pdf\\images\\ringChartImageTemp.jpg";
         String[] names = {"私募股权", "房地产", "基金", "现金宝宝", "股票"};
         int[] values = {20, 20, 20, 30, 10};
-        JFreeChartUtil.createRingChartAsPNG(names, values, font, 600, 300, ringChartImageTempPath, ringChartImagePath);
+        JFreeChartUtil.createRingChartAsPNG("投资种类占比", names, values, font, 600, 300, ringChartImageTempPath, ringChartImagePath);
         //freeMarker转化模板to html
         Map<String, Object> parmas = new HashMap<>();
         Customer customer = new Customer();

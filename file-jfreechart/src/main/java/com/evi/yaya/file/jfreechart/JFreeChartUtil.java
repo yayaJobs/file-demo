@@ -52,7 +52,7 @@ public class JFreeChartUtil {
         }
         PieDataset pds = PieDatasetUtil.createPieDataset(params);
         // 分别是:显示图表的标题、需要提供对应图表的DateSet对象、是否显示图例、是否生成贴士以及是否生成URL链接
-        JFreeChart chart = ChartFactory.createPieChart(title, pds, false, false, true);
+        JFreeChart chart = ChartFactory.createPieChart(title, pds, true, false, false);
         // 设置图片标题的字体
         chart.getTitle().setFont(titleFont);
         // 得到图块,准备设置标签的字体
@@ -77,8 +77,8 @@ public class JFreeChartUtil {
         return Boolean.TRUE;
     }
 
-    public static Boolean createRingChartAsPNG(String[] names, int[] values, Font labelFont, int width, int height, String tempPath, String filePath) {
-        JFreeChart chart = ChartFactory.createRingChart(null, PieDatasetUtil.createPieDataset(names, values), true, false, false);
+    public static Boolean createRingChartAsPNG(String title, String[] names, int[] values, Font labelFont, int width, int height, String tempPath, String filePath) {
+        JFreeChart chart = ChartFactory.createRingChart(title, PieDatasetUtil.createPieDataset(names, values), true, false, false);
         chart.getLegend().setVisible(false);
         // 环形图
         RingPlot ringplot = (RingPlot) chart.getPlot();
