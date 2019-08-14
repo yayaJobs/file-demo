@@ -57,6 +57,8 @@ public class HtmlToPdf {
                 {77, 85, 45, 68}
         };
         JFreeChartUtil.createBarChartAsPNG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 600, barChartImagePath);
+        String stackedBarChartImagePath = "E:\\data\\pdf\\images\\stackedBarChartImage.jpg";
+        JFreeChartUtil.createStackedBarChart("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 600, stackedBarChartImagePath);
 
         //freeMarker转化模板to html
         Map<String, Object> parmas = new HashMap<>();
@@ -71,6 +73,7 @@ public class HtmlToPdf {
         parmas.put("ringChartImagePath", ringChartImagePath);
         parmas.put("multiplePieChartImagePath", multiplePieChartImagePath);
         parmas.put("barChartImagePath", barChartImagePath);
+        parmas.put("stackedBarChartImagePath", stackedBarChartImagePath);
         FreeMarkerUtil.processTemplate(parmas, "freeMarker01.html", "E:\\data\\pdf\\html\\freeMarker01.html");
         //itext html to pdf
         ITextUtil.parseXHtml("E:\\data\\pdf\\html\\freeMarker01.html", "E:\\data\\pdf\\result\\freeMarker01.pdf");
