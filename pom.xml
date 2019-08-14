@@ -22,10 +22,27 @@
         <org.freemarker.version>2.3.28</org.freemarker.version>
         <org.jfreechart.version>1.5.0</org.jfreechart.version>
         <org.lombok.version>1.18.8</org.lombok.version>
+        <project.version>1.0-SNAPSHOT</project.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.evi.yaya</groupId>
+                <artifactId>file-freeMarker</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.evi.yaya</groupId>
+                <artifactId>file-iText</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.evi.yaya</groupId>
+                <artifactId>file-jfreechart</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.itextpdf</groupId>
                 <artifactId>itextpdf</artifactId>
