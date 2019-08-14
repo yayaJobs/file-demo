@@ -1,4 +1,4 @@
-package com.evi.yaya.file.freeMarker.bean;
+package com.evi.yaya.file.core.bean;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * 说明：TODO
  *
  * @Title: Customer
- * @Package com.evi.yaya.file.freeMarker.bean
+ * @Package com.evi.yaya.file.core.bean
  * @See: [] </br>
  * @Copyright: Copyright (c) 2017 </br>
  * @Company: sany huax witsight team by product</br>
