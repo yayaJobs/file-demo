@@ -7,10 +7,7 @@ import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.DefaultDrawingSupplier;
-import org.jfree.chart.plot.MultiplePiePlot;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.RingPlot;
+import org.jfree.chart.plot.*;
 import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.chart.util.TableOrder;
 import org.jfree.data.general.DefaultPieDataset;
@@ -146,7 +143,8 @@ public class JFreeChartUtil {
         return Boolean.TRUE;
     }
 
-    public static Boolean createMultiplePieChartAsPNG(String title, String[] rowKeys, String[] columnKeys, int[][] values, Font titleFont, Font labelFont, int width, int height, String filePath) {
+    public static Boolean createMultiplePieChartAsPNG(String title, String[] rowKeys, String[] columnKeys, int[][] values,
+                                                      Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createMultiplePieChart(title, PieDatasetUtil.createCategoryDataset(rowKeys, columnKeys, values), TableOrder.BY_COLUMN, true, false, false);
         chart.getLegend().setItemFont(labelFont);
         chart.getTitle().setFont(titleFont);
@@ -158,6 +156,34 @@ public class JFreeChartUtil {
         for (int i = 0; i < rowKeys.length; i++) {
             piePlot.setExplodePercent(rowKeys[i], 0.05);
         }
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createBarChartAsPNG(String title, String categoryAxisLabel, String valueAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                              Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createBarChart(title,
+                categoryAxisLabel,
+                valueAxisLabel,
+                PieDatasetUtil.createCategoryDataset(rowKeys, colKeys, data),
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        //以下的设置可以由用户定制，也可以省略
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        //背景色　透明度
+        plot.setBackgroundAlpha(0.5f);
+        //前景色　透明度
+        plot.setForegroundAlpha(0.5f);
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
         try {
             ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
         } catch (IOException e) {

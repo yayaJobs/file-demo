@@ -2,6 +2,7 @@ package com.evi.yaya.file.jfreechart;
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
@@ -58,5 +59,9 @@ public class PieDatasetUtil {
             }
         }
         return categoryDataset;
+    }
+
+    public static CategoryDataset createCategoryDataset(String[] rowKeys, String[] colKeys, double[][] data) {
+        return DatasetUtils.createCategoryDataset(rowKeys, colKeys, data);
     }
 }
