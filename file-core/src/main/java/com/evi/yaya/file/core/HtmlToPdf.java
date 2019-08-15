@@ -34,7 +34,7 @@ public class HtmlToPdf {
         params.put("20点-24点", 600);
         Font font = new Font("宋体", Font.BOLD, 12);
         String pieChartImagePath = "E:\\data\\pdf\\images\\pieChartImage.jpg";
-        JFreeChartUtil.createPieChartAsJPEG("今日放屁次数:时间段分布图", params, font, font, 600, 300, pieChartImagePath);
+        JFreeChartUtil.createPieChartAsJPEG("今日次数:时间段分布图", params, font, font, 600, 300, pieChartImagePath);
         String ringChartImagePath = "E:\\data\\pdf\\images\\ringChartImage.jpg";
         String ringChartImageTempPath = "E:\\data\\pdf\\images\\ringChartImageTemp.jpg";
         String[] names = {"私募股权", "房地产", "基金", "现金宝宝", "股票"};
