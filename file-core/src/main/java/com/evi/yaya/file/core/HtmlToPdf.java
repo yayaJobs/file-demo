@@ -62,8 +62,17 @@ public class HtmlToPdf {
         String areaChartImagePath = "E:\\data\\pdf\\images\\areaChartImage.jpg";
         JFreeChartUtil.createAreaChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, areaChartImagePath);
         String stackedAreaChartImagePath = "E:\\data\\pdf\\images\\stackedAreaChartImage.jpg";
-        JFreeChartUtil.createStackedAreaChartJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, stackedAreaChartImagePath);
-
+        JFreeChartUtil.createStackedAreaChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, stackedAreaChartImagePath);
+        String lineChartImagePath = "E:\\data\\pdf\\images\\lineChartImage.jpg";
+        JFreeChartUtil.createLineChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, lineChartImagePath);
+        String ganttChartImagePath = "E:\\data\\pdf\\images\\ganttChartImage.jpg";
+        JFreeChartUtil.createGanttChartAsJPEG("任务管理系统", "任务各阶段详细实施计", "任务周期", rowKeys, colKeys, data, font, font, 800, 400, ganttChartImagePath);
+        String waterfallChartImagePath = "E:\\data\\pdf\\images\\waterfallChartImage.jpg";
+        JFreeChartUtil.createWaterfallChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, waterfallChartImagePath);
+        String polarChartImagePath = "E:\\data\\pdf\\images\\polarChartImage.jpg";
+        JFreeChartUtil.createPolarChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, polarChartImagePath);
+        String scatterPlotChartImagePath = "E:\\data\\pdf\\images\\scatterPlotChartImage.jpg";
+        JFreeChartUtil.createScatterPlotChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, scatterPlotChartImagePath);
         //freeMarker转化模板to html
         Map<String, Object> parmas = new HashMap<>();
         Customer customer = new Customer();
@@ -80,6 +89,11 @@ public class HtmlToPdf {
         parmas.put("stackedBarChartImagePath", stackedBarChartImagePath);
         parmas.put("areaChartImagePath", areaChartImagePath);
         parmas.put("stackedAreaChartImagePath", stackedAreaChartImagePath);
+        parmas.put("lineChartImagePath", lineChartImagePath);
+        parmas.put("ganttChartImagePath", ganttChartImagePath);
+        parmas.put("waterfallChartImagePath", waterfallChartImagePath);
+        parmas.put("polarChartImagePath", polarChartImagePath);
+        parmas.put("scatterPlotChartImagePath", scatterPlotChartImagePath);
         FreeMarkerUtil.processTemplate(parmas, "freeMarker01.html", "E:\\data\\pdf\\html\\freeMarker01.html");
         //itext html to pdf
         ITextUtil.parseXHtml("E:\\data\\pdf\\html\\freeMarker01.html", "E:\\data\\pdf\\result\\freeMarker01.pdf");

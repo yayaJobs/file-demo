@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.*;
 import org.jfree.chart.util.TableOrder;
@@ -15,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -159,7 +161,7 @@ public class JFreeChartUtil {
     }
 
     public static Boolean createBarChartAsJPEG(String title, String categoryAxisLabel, String valueAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
-                                              Font titleFont, Font labelFont, int width, int height, String filePath) {
+                                               Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createBarChart(title,
                 categoryAxisLabel,
                 valueAxisLabel,
@@ -187,7 +189,7 @@ public class JFreeChartUtil {
     }
 
     public static Boolean createStackedBarChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
-                                                Font titleFont, Font labelFont, int width, int height, String filePath) {
+                                                      Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createStackedBarChart(title,
                 domainAxisLabel,
                 rangeAxisLabel,
@@ -215,7 +217,7 @@ public class JFreeChartUtil {
     }
 
     public static Boolean createAreaChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
-                                                 Font titleFont, Font labelFont, int width, int height, String filePath) {
+                                                Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createAreaChart(title,
                 domainAxisLabel,
                 rangeAxisLabel,
@@ -242,8 +244,8 @@ public class JFreeChartUtil {
         return Boolean.TRUE;
     }
 
-    public static Boolean createStackedAreaChartJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
-                                                Font titleFont, Font labelFont, int width, int height, String filePath) {
+    public static Boolean createStackedAreaChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                       Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createStackedAreaChart(title,
                 domainAxisLabel,
                 rangeAxisLabel,
@@ -262,6 +264,129 @@ public class JFreeChartUtil {
         plot.setForegroundAlpha(0.5f);
         plot.getDomainAxis().setLabelFont(labelFont);
         plot.getRangeAxis().setLabelFont(labelFont);
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createLineChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createLineChart(title,
+                domainAxisLabel,
+                rangeAxisLabel,
+                PieDatasetUtil.createCategoryDataset(rowKeys, colKeys, data),
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        //以下的设置可以由用户定制，也可以省略
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        //背景色　透明度
+        plot.setBackgroundAlpha(0.5f);
+        //前景色　透明度
+        plot.setForegroundAlpha(0.5f);
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createGanttChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                 Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createGanttChart(title,
+                domainAxisLabel,
+                rangeAxisLabel,
+                PieDatasetUtil.createSampleDataset(),
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        CategoryPlot plot = chart.getCategoryPlot();
+
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getDomainAxis().setTickLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
+        //用来控制时间轴的显示,防止乱码
+        DateAxis da = (DateAxis) plot.getRangeAxis(0);
+        da.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd"));
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createWaterfallChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                     Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createWaterfallChart(title,
+                domainAxisLabel,
+                rangeAxisLabel,
+                PieDatasetUtil.createCategoryDataset(rowKeys, colKeys, data),
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        //以下的设置可以由用户定制，也可以省略
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        //背景色　透明度
+        plot.setBackgroundAlpha(0.5f);
+        //前景色　透明度
+        plot.setForegroundAlpha(0.5f);
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createPolarChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                 Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createPolarChart(title,
+                PieDatasetUtil.createXYDataset(),
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createScatterPlotChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                       Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createScatterPlot(title,
+                domainAxisLabel,
+                rangeAxisLabel,
+                PieDatasetUtil.createXYDataset(),
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        XYPlot xyPlot = (XYPlot) chart.getPlot();
+        xyPlot.getDomainAxis().setLabelFont(labelFont);
+        xyPlot.getRangeAxis().setLabelFont(labelFont);
         try {
             ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
         } catch (IOException e) {
