@@ -47,7 +47,7 @@ public class HtmlToPdf {
                 {5, 6, 7, 8},
                 {9, 10, 11, 12},
                 {13, 14, 15, 16}};
-        JFreeChartUtil.createMultiplePieChartAsPNG("各州图书销量", rowKeys, columnKeys, multipleValues, font, font, 800, 600, multiplePieChartImagePath);
+        JFreeChartUtil.createMultiplePieChartAsPNG("各州图书销量", rowKeys, columnKeys, multipleValues, font, font, 800, 400, multiplePieChartImagePath);
         String barChartImagePath = "E:\\data\\pdf\\images\\barChartImage.jpg";
         String[] colKeys = {"1987", "1997", "2007", "2017"};
         double[][] data = {
@@ -56,9 +56,13 @@ public class HtmlToPdf {
                 {40, 30.0008D, 38.24D, 23.2},
                 {77, 85, 45, 68}
         };
-        JFreeChartUtil.createBarChartAsPNG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 600, barChartImagePath);
+        JFreeChartUtil.createBarChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, barChartImagePath);
         String stackedBarChartImagePath = "E:\\data\\pdf\\images\\stackedBarChartImage.jpg";
-        JFreeChartUtil.createStackedBarChart("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 600, stackedBarChartImagePath);
+        JFreeChartUtil.createStackedBarChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, stackedBarChartImagePath);
+        String areaChartImagePath = "E:\\data\\pdf\\images\\areaChartImage.jpg";
+        JFreeChartUtil.createAreaChartAsJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, areaChartImagePath);
+        String stackedAreaChartImagePath = "E:\\data\\pdf\\images\\stackedAreaChartImage.jpg";
+        JFreeChartUtil.createStackedAreaChartJPEG("阶段年图书销量", "年份", "数量：万册", rowKeys, colKeys, data, font, font, 800, 400, stackedAreaChartImagePath);
 
         //freeMarker转化模板to html
         Map<String, Object> parmas = new HashMap<>();
@@ -74,6 +78,8 @@ public class HtmlToPdf {
         parmas.put("multiplePieChartImagePath", multiplePieChartImagePath);
         parmas.put("barChartImagePath", barChartImagePath);
         parmas.put("stackedBarChartImagePath", stackedBarChartImagePath);
+        parmas.put("areaChartImagePath", areaChartImagePath);
+        parmas.put("stackedAreaChartImagePath", stackedAreaChartImagePath);
         FreeMarkerUtil.processTemplate(parmas, "freeMarker01.html", "E:\\data\\pdf\\html\\freeMarker01.html");
         //itext html to pdf
         ITextUtil.parseXHtml("E:\\data\\pdf\\html\\freeMarker01.html", "E:\\data\\pdf\\result\\freeMarker01.pdf");

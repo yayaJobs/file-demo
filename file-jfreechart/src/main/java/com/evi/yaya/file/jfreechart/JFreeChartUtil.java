@@ -158,7 +158,7 @@ public class JFreeChartUtil {
         return Boolean.TRUE;
     }
 
-    public static Boolean createBarChartAsPNG(String title, String categoryAxisLabel, String valueAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+    public static Boolean createBarChartAsJPEG(String title, String categoryAxisLabel, String valueAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
                                               Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createBarChart(title,
                 categoryAxisLabel,
@@ -186,9 +186,65 @@ public class JFreeChartUtil {
         return Boolean.TRUE;
     }
 
-    public static Boolean createStackedBarChart(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+    public static Boolean createStackedBarChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
                                                 Font titleFont, Font labelFont, int width, int height, String filePath) {
         JFreeChart chart = ChartFactory.createStackedBarChart(title,
+                domainAxisLabel,
+                rangeAxisLabel,
+                PieDatasetUtil.createCategoryDataset(rowKeys, colKeys, data),
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        //以下的设置可以由用户定制，也可以省略
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        //背景色　透明度
+        plot.setBackgroundAlpha(0.5f);
+        //前景色　透明度
+        plot.setForegroundAlpha(0.5f);
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createAreaChartAsJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                 Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createAreaChart(title,
+                domainAxisLabel,
+                rangeAxisLabel,
+                PieDatasetUtil.createCategoryDataset(rowKeys, colKeys, data),
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart.getTitle().setFont(titleFont);
+        chart.getLegend().setItemFont(labelFont);
+        //以下的设置可以由用户定制，也可以省略
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        //背景色　透明度
+        plot.setBackgroundAlpha(0.5f);
+        //前景色　透明度
+        plot.setForegroundAlpha(0.5f);
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
+        try {
+            ChartUtils.saveChartAsJPEG(new File(filePath), chart, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Boolean.TRUE;
+    }
+
+    public static Boolean createStackedAreaChartJPEG(String title, String domainAxisLabel, String rangeAxisLabel, String[] rowKeys, String[] colKeys, double[][] data,
+                                                Font titleFont, Font labelFont, int width, int height, String filePath) {
+        JFreeChart chart = ChartFactory.createStackedAreaChart(title,
                 domainAxisLabel,
                 rangeAxisLabel,
                 PieDatasetUtil.createCategoryDataset(rowKeys, colKeys, data),
